@@ -9,8 +9,6 @@ AC_PROG_LIBTOOL
 AC_PROG_RANLIB
 AM_PROG_CC_C_O
  
-#CPPFLAGS="$CPPFLAGS -I../wiringPi -I../devLib"
-
 AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/ioctl.h unistd.h])
 AC_CHECK_LIB(pthread, pthread_create)
 AC_CONFIG_FILES([Makefile])
