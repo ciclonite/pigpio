@@ -7,5 +7,5 @@ Name: @PACKAGE_NAME@
 Description: pigpio is a library to interface with RaspberryPi GPIO
 Version: @PACKAGE_VERSION@
 URL: @PACKAGE_URL@
-Libs: -L${libdir} -lpigpio
+Libs: -L${libdir} -lpigpio -lrt -lpthread
 Cflags: -I${includedir}/pigpio
