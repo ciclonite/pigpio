@@ -1,5 +1,5 @@
-config BR2_PACKAGE_PIGPIO
-	bool "pigpio"
+config BR2_PACKAGE_LIBPIGPIO
+	bool "libpigpio"
 	help
-	  pigpio is a C library for the Raspberry Pi which allows control of the general purpose input outputs (gpios).
+	  libpigpio is a C library for the Raspberry Pi which allows control of the general purpose input outputs (gpios).
 
