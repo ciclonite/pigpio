@@ -26,7 +26,7 @@ For more information, please refer to <http://unlicense.org/>
 */
 
 /*
-This version is for pigpio version 3+
+This version is for pigpio version 23+
 */
 
 #ifndef COMMAND_H
@@ -37,22 +37,86 @@ This version is for pigpio version 3+
 
 #include "pigpio.h"
 
+#define CMD_MAX_PARAM 512
+#define CMD_MAX_EXTENSION (1<<16)
+
+#define CMD_UNKNOWN_CMD   -1
+#define CMD_BAD_PARAMETER -2
+#define CMD_EXT_TOO_SMALL -3
+
+#define CMD_P_ARR 10
+#define CMD_V_ARR 10
+
+#define CMD_NUMERIC 1
+#define CMD_VAR     2
+#define CMD_PAR     3
+
 typedef struct
 {
-   int    cmd;
-   char * name;
-   int    vt;
-   int    rv;
+   uint32_t cmd;
+   uint32_t p1;
+   uint32_t p2;
+   union
+   {
+      uint32_t p3;
+      uint32_t ext_len;
+      uint32_t res;
+   };
+} cmdCmd_t;
+
+typedef struct
+{
+   int    eaten;
+   int8_t opt[4];
+} cmdCtlParse_t;
+
+typedef struct
+{
+   int   cmd;  /* command number            */
+   char *name; /* command name              */
+   int   vt;   /* command verification type */
+   int   rv;   /* command return value type */
 } cmdInfo_t;
+
+typedef struct
+{
+   uint32_t tag;
+   int      step;
+} cmdTagStep_t;
+
+typedef struct
+{
+   uint32_t p[5];
+   int8_t opt[4];
+} cmdInstr_t;
+
+typedef struct
+{
+   /*
+     +-----------+---------+---------+----------------+
+     | PARAMS... | VARS... | CMDS... | STRING AREA... |
+     +-----------+---------+---------+----------------+
+   */
+   int *par;
+   int *var;
+   cmdInstr_t *instr;
+   int instrs;
+   char *str_area;
+   int str_area_len;
+   int str_area_pos;
+} cmdScript_t;
 
 extern cmdInfo_t cmdInfo[];
 
-extern char * cmdUsage;
+extern char *cmdUsage;
 
-int    cmdParse(char * buf, cmdCmd_t * cmd);
+int cmdParse(char *buf, uint32_t *p, unsigned ext_len, char *ext, cmdCtlParse_t *ctl);
 
-char * cmdErrStr(int error);
+int cmdParseScript(char *script, cmdScript_t *s, int diags);
 
-void   cmdFatal(char *fmt, ...);
+char *cmdErrStr(int error);
+
+char *cmdStr(void);
 
 #endif
+
