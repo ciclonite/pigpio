@@ -1,6 +1,6 @@
 AC_PREREQ([2.68])
-AC_INIT([libpigpio], [6], [pigpio@abyz.co.uk])
-AM_INIT_AUTOMAKE(pigpio, 6)
+AC_INIT([libpigpio], [39], [pigpio@abyz.co.uk])
+AM_INIT_AUTOMAKE(pigpio, 39)
 AC_CONFIG_SRCDIR(pigpio.c)
 AC_CONFIG_HEADERS(config.h)
 
